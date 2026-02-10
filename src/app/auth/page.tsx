@@ -1,9 +1,23 @@
 "use client";
 
 import { signIn, signOut, useSession } from "next-auth/react";
+import { useEffect, useMemo } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function AuthPage() {
   const { data: session, status } = useSession();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = useMemo(() => {
+    const raw = searchParams.get("callbackUrl");
+    return raw && raw.startsWith("/") ? raw : "/profile";
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (session) {
+      router.replace(callbackUrl);
+    }
+  }, [session, router, callbackUrl]);
 
   return (
     <section className="card" style={{ marginTop: 24 }}>
@@ -19,13 +33,26 @@ export default function AuthPage() {
               Sair
             </button>
           ) : (
-            <button
-              className="button"
-              onClick={() => signIn("google")}
-              type="button"
-            >
-              Entrar com Google
-            </button>
+            <>
+              <button
+                className="button"
+                onClick={() =>
+                  signIn("google", { callbackUrl, prompt: "select_account" })
+                }
+                type="button"
+              >
+                Autenticar
+              </button>
+              <button
+                className="button secondary"
+                onClick={() =>
+                  signIn("google", { callbackUrl, prompt: "select_account" })
+                }
+                type="button"
+              >
+                Registar
+              </button>
+            </>
           )}
         </div>
       )}

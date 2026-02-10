@@ -35,9 +35,14 @@ export default function RootLayout({
             <nav className="nav">
               <Link href="/">NodeApp</Link>
               <div>
-                <Link href="/profile">Perfil</Link>
-                <Link href="/auth">Autenticação</Link>
                 <Link href="/quotes">Cotações</Link>
+                <Link href="/weather">Meteorologia</Link>
+                <div className="menu">
+                  <span className="menu-label">Filmes</span>
+                  <div className="menu-panel">
+                    <Link href="/films">Mostra Filmes</Link>
+                  </div>
+                </div>
                 <NavUser />
               </div>
             </nav>

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 export function NavUser() {
   const { data: session, status } = useSession();
@@ -19,8 +19,22 @@ export function NavUser() {
   }
 
   return (
-    <Link className="button secondary" href="/profile">
-      {session.user?.name ?? "Perfil"}
-    </Link>
+    <div className="menu">
+      <span className="menu-label">
+        {session.user?.name ?? "Perfil"}
+      </span>
+      <div className="menu-panel">
+        <Link className="menu-item" href="/profile">
+          Perfil
+        </Link>
+        <button
+          className="menu-item"
+          type="button"
+          onClick={() => signOut({ callbackUrl: "/" })}
+        >
+          Logout
+        </button>
+      </div>
+    </div>
   );
 }

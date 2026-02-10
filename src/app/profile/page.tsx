@@ -1,6 +1,6 @@
 "use client";
 
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 export default function ProfilePage() {
   const { data: session, status } = useSession();
@@ -21,9 +21,6 @@ export default function ProfilePage() {
             <p>
               <strong>Email:</strong> {session.user?.email ?? "N/D"}
             </p>
-            <button className="button secondary" onClick={() => signOut()}>
-              Logout
-            </button>
           </div>
           <div>
             <p className="muted">
