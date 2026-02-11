@@ -1,66 +1,22 @@
-"use client";
+import { Suspense } from "react";
+import { AuthClient } from "./auth-client";
 
-import { signIn, signOut, useSession } from "next-auth/react";
-import { useEffect, useMemo } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+type AuthPageProps = {
+  searchParams: Promise<{ callbackUrl?: string | string[] }>;
+};
 
-export default function AuthPage() {
-  const { data: session, status } = useSession();
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const callbackUrl = useMemo(() => {
-    const raw = searchParams.get("callbackUrl");
-    return raw && raw.startsWith("/") ? raw : "/profile";
-  }, [searchParams]);
+function normalizeCallback(raw: string | string[] | undefined) {
+  const value = Array.isArray(raw) ? raw[0] : raw;
+  return value && value.startsWith("/") ? value : "/profile";
+}
 
-  useEffect(() => {
-    if (session) {
-      router.replace(callbackUrl);
-    }
-  }, [session, router, callbackUrl]);
+export default async function AuthPage({ searchParams }: AuthPageProps) {
+  const params = await searchParams;
+  const callbackUrl = normalizeCallback(params.callbackUrl);
 
   return (
-    <section className="card" style={{ marginTop: 24 }}>
-      <h1>Autenticação</h1>
-      <p className="muted">
-        Conecte-se com o Google para acessar recursos personalizados.
-      </p>
-      {status === "loading" && <p className="muted">Verificando sessão...</p>}
-      {status !== "loading" && (
-        <div className="form-row">
-          {session ? (
-            <button className="button secondary" onClick={() => signOut()}>
-              Sair
-            </button>
-          ) : (
-            <>
-              <button
-                className="button"
-                onClick={() =>
-                  signIn("google", { callbackUrl, prompt: "select_account" })
-                }
-                type="button"
-              >
-                Autenticar
-              </button>
-              <button
-                className="button secondary"
-                onClick={() =>
-                  signIn("google", { callbackUrl, prompt: "select_account" })
-                }
-                type="button"
-              >
-                Registar
-              </button>
-            </>
-          )}
-        </div>
-      )}
-      {session && (
-        <p className="muted">
-          Logado como {session.user?.email ?? "usuário"}.
-        </p>
-      )}
-    </section>
+    <Suspense fallback={<section className="card" style={{ marginTop: 24 }}>Carregando...</section>}>
+      <AuthClient callbackUrl={callbackUrl} />
+    </Suspense>
   );
 }
