@@ -16,7 +16,7 @@
 
 body {
   margin: 0;
-  background: radial-gradient(circle at top left, #f6f9f9, #dfdfdf 40%, #f9f8fb);
+  background: linear-gradient(135deg, #eef1f6 0%, #dde3ee 50%, #edf0f6 100%);
   color: var(--ink);
   font-family: var(--font-geist-sans), system-ui, -apple-system, Segoe UI, sans-serif;
 }
@@ -106,7 +106,7 @@ a {
 }
 
 .menu-panel .menu-item:hover {
-  background: #f0ede6;
+  background: #e6edf8;
 }
 
 .menu[open] .menu-panel {
@@ -126,7 +126,7 @@ a {
 }
 
 .nav a:hover {
-  background: #f0ede6;
+  background: #e6edf8;
 }
 
 .hero {
@@ -264,6 +264,11 @@ a {
   gap: 6px;
 }
 
+.field label {
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
 input[type="date"] {
   padding: 10px 12px;
   border-radius: 12px;
@@ -280,6 +285,7 @@ textarea {
   color: var(--ink);
   font: inherit;
   min-width: 220px;
+  font-size: 0.9rem;
 }
 
 input:focus,
