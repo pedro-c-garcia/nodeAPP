@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "./providers";
 import Link from "next/link";
 import { NavUser } from "./nav-user";
+import { MenuAutoClose } from "./menu-autoclose";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,18 +32,32 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
+          <MenuAutoClose />
           <div className="container">
             <nav className="nav">
               <Link href="/">NodeApp</Link>
               <div>
                 <Link href="/quotes">Cotações</Link>
                 <Link href="/weather">Meteorologia</Link>
-                <div className="menu">
-                  <span className="menu-label">Filmes</span>
+                <details className="menu">
+                  <summary className="menu-label">Filmes</summary>
                   <div className="menu-panel">
-                    <Link href="/films">Mostra Filmes</Link>
+                    <Link className="menu-item" href="/films">
+                      Mostra Filmes
+                    </Link>
                   </div>
-                </div>
+                </details>
+                <details className="menu">
+                  <summary className="menu-label">vCard</summary>
+                  <div className="menu-panel">
+                    <Link className="menu-item" href="/vcard">
+                      Criar vCard
+                    </Link>
+                    <Link className="menu-item" href="/vcard/contacts">
+                      Consultar contactos
+                    </Link>
+                  </div>
+                </details>
                 <NavUser />
               </div>
             </nav>

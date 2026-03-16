@@ -19,10 +19,10 @@ export function NavUser() {
   }
 
   return (
-    <div className="menu">
-      <span className="menu-label">
+    <details className="menu">
+      <summary className="menu-label">
         {session.user?.name ?? "Perfil"}
-      </span>
+      </summary>
       <div className="menu-panel">
         <Link className="menu-item" href="/profile">
           Perfil
@@ -35,6 +35,6 @@ export function NavUser() {
           Logout
         </button>
       </div>
-    </div>
+    </details>
   );
 }
